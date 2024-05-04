@@ -49,6 +49,7 @@ run/
 
 bloom-server
 bloom-api
+paper-api-generator
 
 *.sh
 Bloom.jar
