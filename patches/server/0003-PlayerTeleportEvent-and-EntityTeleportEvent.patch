@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sun, 5 May 2024 03:47:18 +0200
+Subject: [PATCH] PlayerTeleportEvent and EntityTeleportEvent
+
+
+diff --git a/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java b/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java
+index eb618442c99114c3b81c2522242944dad58654f8..61465b5a34528fec951ad030d8e6004f6cf40cd8 100644
+--- a/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java
++++ b/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java
+@@ -116,4 +116,9 @@ public class GlobalConfiguration {
+         }
+         return builder.build();
+     }
++
++    public static boolean ENABLE_ENTITY_TELEPORT_EVENT = false;
++    private static void teleportCalled() {
++        ENABLE_ENTITY_TELEPORT_EVENT = getBoolean("event.entity.teleport_event", ENABLE_ENTITY_TELEPORT_EVENT);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 1119b6a7f307763c13ef48bcd7643539082aebdc..5c2eaf05d8814860ce8d94e35cd1cee1181fdb5a 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -3956,7 +3956,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
+                                        java.util.function.Consumer<Entity> teleportComplete) {
+         io.papermc.paper.util.TickThread.ensureTickThread(this, "Cannot teleport entity async");
+ 
+-        if (!ServerLevel.isInSpawnableBounds(new BlockPos(io.papermc.paper.util.CoordinateUtils.getBlockX(pos), io.papermc.paper.util.CoordinateUtils.getBlockY(pos), io.papermc.paper.util.CoordinateUtils.getBlockZ(pos)))) {
++        BlockPos blockPos = new BlockPos(io.papermc.paper.util.CoordinateUtils.getBlockX(pos), io.papermc.paper.util.CoordinateUtils.getBlockY(pos), io.papermc.paper.util.CoordinateUtils.getBlockZ(pos)); // Bloom
++        if (!ServerLevel.isInSpawnableBounds(blockPos)) { // Bloom
+             return false;
+         }
+ 
+@@ -3986,6 +3987,25 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
+         }
+ 
+         // TODO any events that can modify go HERE
++        // Bloom start
++        if (fr.euphyllia.bloom.configuration.GlobalConfiguration.ENABLE_ENTITY_TELEPORT_EVENT) {
++            org.bukkit.entity.Entity bukkitEntity = this.getBukkitEntity();
++            Location to = new Location(destination.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), yaw, pitch);
++            if (bukkitEntity instanceof org.bukkit.entity.Player player) {
++                PlayerTeleportEvent playerTeleportEvent = new PlayerTeleportEvent(player, bukkitEntity.getLocation(), to);
++                destination.getCraftServer().getPluginManager().callEvent(playerTeleportEvent);
++                if (playerTeleportEvent.isCancelled()) {
++                    return false;
++                }
++            } else {
++                org.bukkit.event.entity.EntityTeleportEvent entityTeleportEvent = new org.bukkit.event.entity.EntityTeleportEvent(bukkitEntity, bukkitEntity.getLocation(), to);
++                destination.getCraftServer().getPluginManager().callEvent(entityTeleportEvent);
++                if (entityTeleportEvent.isCancelled()) {
++                    return false;
++                }
++            }
++        }
++        // Bloom end
+ 
+         // check for same region
+         if (destination == this.level()) {
