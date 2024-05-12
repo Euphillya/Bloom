@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sun, 12 May 2024 21:31:51 +0200
+Subject: [PATCH] Support MythicMobs
+
+This is a pretty poopy patch I think :D (but it's launching)
+
+diff --git a/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java b/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java
+index 61465b5a34528fec951ad030d8e6004f6cf40cd8..7b55e98f8b2beaa68d7bf56aec61de86d45972e2 100644
+--- a/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java
++++ b/src/main/java/fr/euphyllia/bloom/configuration/GlobalConfiguration.java
+@@ -121,4 +121,9 @@ public class GlobalConfiguration {
+     private static void teleportCalled() {
+         ENABLE_ENTITY_TELEPORT_EVENT = getBoolean("event.entity.teleport_event", ENABLE_ENTITY_TELEPORT_EVENT);
+     }
++
++    public static boolean ENABLE_PATCH_MYTHICMOBS_PLUGINS = false;
++    private static void pluginSupport() {
++        ENABLE_PATCH_MYTHICMOBS_PLUGINS = getBoolean("plugins.mythicmobs.patch", ENABLE_PATCH_MYTHICMOBS_PLUGINS);
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+index b00e3b9b628f3d2a2fdbf1d2c77904963c16d3ac..4fed85c3fcd2b8cd6b27759c5c2b961b804f9e65 100644
+--- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
++++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+@@ -532,7 +532,9 @@ public class CraftScheduler implements BukkitScheduler {
+     }
+ 
+     protected CraftTask handle(final CraftTask task, final long delay) { // Paper
+-        if (true) throw new UnsupportedOperationException(); // Folia - region threading
++        if (!fr.euphyllia.bloom.configuration.GlobalConfiguration.ENABLE_PATCH_MYTHICMOBS_PLUGINS || !task.getOwner().getName().equals("MythicMobs")) { // Bloom - shit patch
++            throw new UnsupportedOperationException(); // Folia - region threading
++        } else {  // Bloom - shit patch
+         // Paper start
+         if (!this.isAsyncScheduler && !task.isSync()) {
+             this.asyncScheduler.handle(task, delay);
+@@ -542,6 +544,7 @@ public class CraftScheduler implements BukkitScheduler {
+         task.setNextRun(this.currentTick + delay);
+         this.addTask(task);
+         return task;
++        } // Bloom - shit patch
+     }
+ 
+     private static void validate(final Plugin plugin, final Object task) {
