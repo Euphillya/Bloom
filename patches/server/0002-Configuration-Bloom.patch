@@ -203,263 +203,11 @@ index 0000000000000000000000000000000000000000..fea1e7a698441b4601999edb54ce4938
 +    }
 +}
 \ No newline at end of file
-diff --git a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-index 5bef4f50082e56b89239cfd62dd7429926b71c09..6db1c2859cbedab223d21843dfebaf85f12f5b31 100644
---- a/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/entity/EntityLookup.java
-@@ -41,7 +41,7 @@ import java.util.function.Predicate;
- 
- public final class EntityLookup implements LevelEntityGetter<Entity> {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     protected static final int REGION_SHIFT = 5;
-     protected static final int REGION_MASK = (1 << REGION_SHIFT) - 1;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java b/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java
-index 2934f0cf0ef09c84739312b00186c2ef0019a165..b80d9bfef54a1ed2089c3242f2cebbfdd342654b 100644
---- a/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/io/RegionFileIOThread.java
-@@ -43,7 +43,7 @@ import java.util.function.Function;
-  */
- public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     /**
-      * The kinds of region files controlled by the region file thread. Add more when needed, and ensure
-@@ -1030,7 +1030,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
- 
-     static final class InProgressRead {
- 
--        private static final Logger LOGGER = LogUtils.getClassLogger();
-+        private static final Logger LOGGER = LogUtils.getLogger();
- 
-         CompoundTag value;
-         Throwable throwable;
-@@ -1176,7 +1176,7 @@ public final class RegionFileIOThread extends PrioritisedQueueExecutorThread {
- 
-         protected static final CompoundTag NOTHING_TO_WRITE = new CompoundTag();
- 
--        private static final Logger LOGGER = LogUtils.getClassLogger();
-+        private static final Logger LOGGER = LogUtils.getLogger();
- 
-         RegionFileIOThread.InProgressRead inProgressRead;
-         volatile CompoundTag inProgressWrite = NOTHING_TO_WRITE; // only needs to be acquire/release
-diff --git a/src/main/java/io/papermc/paper/chunk/system/poi/PoiChunk.java b/src/main/java/io/papermc/paper/chunk/system/poi/PoiChunk.java
-index d72041aa814ff179e6e29a45dcd359a91d426d47..83621d23fa5957cc99c6a3d0690c482d3d91c57c 100644
---- a/src/main/java/io/papermc/paper/chunk/system/poi/PoiChunk.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/poi/PoiChunk.java
-@@ -20,7 +20,7 @@ import java.util.Optional;
- 
- public final class PoiChunk {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     public final ServerLevel world;
-     public final int chunkX;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkFullTask.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkFullTask.java
-index 8a48238fac0949cfddcdd9ccf179d16befe9c4d4..f4b1b0049e1da5a162e874d379a924dad6aa53d5 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkFullTask.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkFullTask.java
-@@ -16,7 +16,7 @@ import java.lang.invoke.VarHandle;
- 
- public final class ChunkFullTask extends ChunkProgressionTask implements Runnable {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     protected final NewChunkHolder chunkHolder;
-     protected final ChunkAccess fromChunk;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
-index 0d8b2a4127e8c8e4970d220b8a2240490da6e7df..c2e631efeb93d570d95d6eb8a0b14a3189605ca8 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkHolderManager.java
-@@ -63,7 +63,7 @@ import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
- 
- public final class ChunkHolderManager {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     public static final int FULL_LOADED_TICKET_LEVEL    = 33;
-     public static final int BLOCK_TICKING_TICKET_LEVEL  = 32;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkLoadTask.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkLoadTask.java
-index f0b03a05387e38ca6933b1ea6fe59b537d5535b9..cd2fabaf5db7137a2500c52502fa9542450d4a29 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkLoadTask.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkLoadTask.java
-@@ -30,7 +30,7 @@ import java.util.function.Consumer;
- 
- public final class ChunkLoadTask extends ChunkProgressionTask {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     private final NewChunkHolder chunkHolder;
-     private final ChunkDataLoadTask loadTask;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
-index 92f37abe3eb7ad85fd60d3c80acf77dc575b26ea..75d935bf5b888e417b1a359c558f5e2423d85675 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkTaskScheduler.java
-@@ -41,7 +41,7 @@ import java.util.function.Consumer;
- 
- public final class ChunkTaskScheduler {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     static int newChunkSystemIOThreads;
-     static int newChunkSystemWorkerThreads;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkUpgradeGenericStatusTask.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkUpgradeGenericStatusTask.java
-index e929d55fdb6fad6587af058dff6cadb6bc2a156b..ceb1db9acd4a18f677f8d072558dc4c83c3c721b 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkUpgradeGenericStatusTask.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/ChunkUpgradeGenericStatusTask.java
-@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
- 
- public final class ChunkUpgradeGenericStatusTask extends ChunkProgressionTask implements Runnable {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     protected final ChunkAccess fromChunk;
-     protected final ChunkStatus fromStatus;
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/GenericDataLoadTask.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/GenericDataLoadTask.java
-index 396d72c00e47cf1669ae20dc839c1c961b1f262a..ffbfaef2a57f0f26d0143f3a8fcf937bee7e7398 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/GenericDataLoadTask.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/GenericDataLoadTask.java
-@@ -18,7 +18,7 @@ import java.util.function.BiConsumer;
- 
- public abstract class GenericDataLoadTask<OnMain,FinalCompletion> {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     protected static final CompoundTag CANCELLED_DATA = new CompoundTag();
- 
-diff --git a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-index 2c688d886b14679d7ab4a485da2675e97c2bac43..d9063618a39a8f0a2d874979f85a348d63f53016 100644
---- a/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-+++ b/src/main/java/io/papermc/paper/chunk/system/scheduling/NewChunkHolder.java
-@@ -47,7 +47,7 @@ import java.util.function.Consumer;
- 
- public final class NewChunkHolder {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     public static final Thread.UncaughtExceptionHandler CHUNKSYSTEM_UNCAUGHT_EXCEPTION_HANDLER = new Thread.UncaughtExceptionHandler() {
-         @Override
-diff --git a/src/main/java/io/papermc/paper/configuration/Configurations.java b/src/main/java/io/papermc/paper/configuration/Configurations.java
-index 218bf89fd7583d6db9f64754c4db8fcce5415bdb..ee51349c02ae04650d6193ccbe28576f2ad8fd99 100644
---- a/src/main/java/io/papermc/paper/configuration/Configurations.java
-+++ b/src/main/java/io/papermc/paper/configuration/Configurations.java
-@@ -32,7 +32,7 @@ import java.util.function.UnaryOperator;
- 
- public abstract class Configurations<G, W> {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
-     public static final String WORLD_DEFAULTS = "__world_defaults__";
-     public static final ResourceLocation WORLD_DEFAULTS_KEY = new ResourceLocation("configurations", WORLD_DEFAULTS);
-     protected final Path globalFolder;
-diff --git a/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
-index fa1c0aee8c3a4d0868482cf5c703bbfd08e09874..7ddb284fe7e3ed99e1c834e038cd792552897b93 100644
---- a/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
-+++ b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
-@@ -75,7 +75,7 @@ import static io.leangen.geantyref.GenericTypeReflector.erase;
- @SuppressWarnings("Convert2Diamond")
- public class PaperConfigurations extends Configurations<GlobalConfiguration, WorldConfiguration> {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
-     static final String GLOBAL_CONFIG_FILE_NAME = "paper-global.yml";
-     static final String WORLD_DEFAULTS_CONFIG_FILE_NAME = "paper-world-defaults.yml";
-     static final String WORLD_CONFIG_FILE_NAME = "paper-world.yml";
-diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-index 805080704cf5280c7d97e5e510c547c5e0d0f120..731c3f0b8c87adbf866d3084f22fde61d060cb7e 100644
---- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-+++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -60,7 +60,7 @@ import org.spongepowered.configurate.objectmapping.meta.Setting;
- 
- @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal", "NotNullFieldNotInitialized", "InnerClassMayBeStatic"})
- public class WorldConfiguration extends ConfigurationPart {
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
-     static final int CURRENT_VERSION = 30; // (when you change the version, change the comment, so it conflicts on rebases): rename filter bad nbt from spawn eggs
- 
-     private transient final SpigotWorldConfig spigotConfig;
-diff --git a/src/main/java/io/papermc/paper/configuration/serializer/PacketClassSerializer.java b/src/main/java/io/papermc/paper/configuration/serializer/PacketClassSerializer.java
-index 893ad5e7c2d32ccd64962d95d146bbd317c28ab8..bc065d5cc8975dd189954272116a6bc5bc7f4e28 100644
---- a/src/main/java/io/papermc/paper/configuration/serializer/PacketClassSerializer.java
-+++ b/src/main/java/io/papermc/paper/configuration/serializer/PacketClassSerializer.java
-@@ -20,7 +20,7 @@ import java.util.function.Predicate;
- @SuppressWarnings("Convert2Diamond")
- public final class PacketClassSerializer extends ScalarSerializer<Class<? extends Packet<?>>> implements MapSerializer.WriteBack {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
-     private static final TypeToken<Class<? extends Packet<?>>> TYPE = new TypeToken<Class<? extends Packet<?>>>() {};
-     private static final List<String> SUBPACKAGES = List.of("game", "handshake", "login", "status");
-     private static final BiMap<String, String> MOJANG_TO_OBF;
-diff --git a/src/main/java/io/papermc/paper/configuration/transformation/world/FeatureSeedsGeneration.java b/src/main/java/io/papermc/paper/configuration/transformation/world/FeatureSeedsGeneration.java
-index 1326aae8f95ab11f840abdee0c8c7a557705fd73..44e5f1f91b603df950929df2d102d70611167bff 100644
---- a/src/main/java/io/papermc/paper/configuration/transformation/world/FeatureSeedsGeneration.java
-+++ b/src/main/java/io/papermc/paper/configuration/transformation/world/FeatureSeedsGeneration.java
-@@ -31,7 +31,7 @@ public final class FeatureSeedsGeneration implements TransformAction {
-     public static final String GENERATE_KEY = "generate-random-seeds-for-all";
-     public static final String FEATURES_KEY = "features";
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     private final ResourceLocation worldKey;
- 
-diff --git a/src/main/java/io/papermc/paper/plugin/PluginInitializerManager.java b/src/main/java/io/papermc/paper/plugin/PluginInitializerManager.java
-index 708e5bb9bbf0476fcc2c4b92c6830b094703b43e..ec88b7ba05bc3d839df0a53941152304024e4eca 100644
---- a/src/main/java/io/papermc/paper/plugin/PluginInitializerManager.java
-+++ b/src/main/java/io/papermc/paper/plugin/PluginInitializerManager.java
-@@ -21,7 +21,7 @@ import java.nio.file.Path;
- 
- public class PluginInitializerManager {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
-     private static PluginInitializerManager impl;
-     private final Path pluginDirectory;
-     private final Path updateDirectory;
-diff --git a/src/main/java/io/papermc/paper/plugin/storage/BootstrapProviderStorage.java b/src/main/java/io/papermc/paper/plugin/storage/BootstrapProviderStorage.java
-index 65a66e484c1c39c5f41d97db52f31c67b4479d20..877fa1646715483828e0b12bf57a610c47954f50 100644
---- a/src/main/java/io/papermc/paper/plugin/storage/BootstrapProviderStorage.java
-+++ b/src/main/java/io/papermc/paper/plugin/storage/BootstrapProviderStorage.java
-@@ -18,7 +18,7 @@ import org.slf4j.Logger;
- 
- public class BootstrapProviderStorage extends SimpleProviderStorage<PluginBootstrap> {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     public BootstrapProviderStorage() {
-         super(new ModernPluginLoadingStrategy<>(new ProviderConfiguration<>() {
-diff --git a/src/main/java/io/papermc/paper/threadedregions/RegionShutdownThread.java b/src/main/java/io/papermc/paper/threadedregions/RegionShutdownThread.java
-index 3f3fd8b1881106f893ffb677272e50d77cbb6626..cb41cb78e2568640402e8eb52e47404bfa142266 100644
---- a/src/main/java/io/papermc/paper/threadedregions/RegionShutdownThread.java
-+++ b/src/main/java/io/papermc/paper/threadedregions/RegionShutdownThread.java
-@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
- 
- public final class RegionShutdownThread extends TickThread {
- 
--    private static final Logger LOGGER = LogUtils.getClassLogger();
-+    private static final Logger LOGGER = LogUtils.getLogger();
- 
-     ThreadedRegionizer.ThreadedRegion<TickRegions.TickRegionData, TickRegions.TickRegionSectionData> shuttingDown;
- 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 6b3242117d62175de462d04e4d178b49ae2521e9..82b239bcfa42f3f71b8ba2786e0ca024bcfc328f 100644
+index 05bc06fcf508e74c717a7f71a2c7ed7c568e846a..e13a483a4f6e1e0d9b0e87f3ce2e2da3b07a481f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -219,6 +219,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -232,6 +232,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          thread.start(); // Paper - Enhance console tab completions for brigadier commands; start console thread after MinecraftServer.console & PaperConfig are initialized
          io.papermc.paper.command.PaperCommands.registerCommands(this); // Paper - setup /paper command
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
@@ -475,19 +223,10 @@ index 6b3242117d62175de462d04e4d178b49ae2521e9..82b239bcfa42f3f71b8ba2786e0ca024
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // Paper - init PaperBrigadierProvider
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 3cd8573db9dadb2e32f3c107f4812b525db014b1..4546441e57e27aa730f89b8ef49b8e7aa8ff2f73 100644
+index 8c124cb3d1238c9f3297f9f2d2345399055147fe..6517bdb942649a8624f1c806d7669ae1fa33be92 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -10,6 +10,8 @@ import java.util.function.Consumer;
- import java.util.function.Predicate;
- import java.util.function.Supplier;
- import javax.annotation.Nullable;
-+
-+import fr.euphyllia.bloom.configuration.WorldConfiguration;
- import net.minecraft.CrashReport;
- import net.minecraft.CrashReportCategory;
- import net.minecraft.ReportedException;
-@@ -163,6 +165,12 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -160,6 +160,12 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      // Paper end - add paper world config
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
@@ -500,7 +239,7 @@ index 3cd8573db9dadb2e32f3c107f4812b525db014b1..4546441e57e27aa730f89b8ef49b8e7a
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
      private org.spigotmc.TickLimiter entityLimiter;
-@@ -239,6 +247,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -236,6 +242,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, RegistryAccess iregistrycustom, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.concurrent.Executor executor) { // Paper - create paper world config; Async-Anti-Xray: Pass executor
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
@@ -509,10 +248,10 @@ index 3cd8573db9dadb2e32f3c107f4812b525db014b1..4546441e57e27aa730f89b8ef49b8e7a
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d057f233a3f634490656819fb785f978e677faf8..0ceb8f24d602f4fef269f98f38a564f905b178b2 100644
+index 477a7bd66cd07ddcc074270b8ec5f2dc5a803baf..b962394daea6d43282cbab251273bf8aececa309 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -255,6 +255,7 @@ import org.bukkit.scoreboard.Criteria;
+@@ -257,6 +257,7 @@ import org.bukkit.scoreboard.Criteria;
  import org.bukkit.structure.StructureManager;
  import org.bukkit.util.StringUtil;
  import org.bukkit.util.permissions.DefaultPermissions;
@@ -536,7 +275,7 @@ index d057f233a3f634490656819fb785f978e677faf8..0ceb8f24d602f4fef269f98f38a564f9
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -3073,6 +3076,13 @@ public final class CraftServer implements Server {
+@@ -3093,6 +3096,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -551,10 +290,10 @@ index d057f233a3f634490656819fb785f978e677faf8..0ceb8f24d602f4fef269f98f38a564f9
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 8d626fadcd4743b6472a2954d2b1b2ec89669814..72850c80b20b75721812116d9648c036a7db1d6f 100644
+index c988afa496d25314451435eedd64079a0d87cef0..04850c67e4995cebd694a721dc588a068b3ccf68 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -174,6 +174,14 @@ public class Main {
+@@ -175,6 +175,14 @@ public class Main {
                          .describedAs("Jar file");
                  // Paper end
  
