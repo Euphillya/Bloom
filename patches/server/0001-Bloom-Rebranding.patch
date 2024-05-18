@@ -5,120 +5,75 @@ Subject: [PATCH] Bloom Rebranding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b1d621ed91c74790fd5b66339c044ec444de62ef..95953e0256f947966bc3824e678915f39966c40d 100644
+index eb2f9941b24af591f1e56339b97f5284a765cf81..830a22133b231ce485b967b91298cbaa8e46d34a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -13,7 +13,7 @@ val alsoShade: Configuration by configurations.creating
+@@ -13,7 +13,7 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
+ val alsoShade: Configuration by configurations.creating
  
  dependencies {
-     // Folia start
--    implementation(project(":folia-api"))
-+    implementation(project(":bloom-api")) // Bloom
-     implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
-         exclude("io.papermc.paper", "paper-api")
-     }
-@@ -77,13 +77,13 @@ tasks.jar {
+-    implementation(project(":folia-api")) // Folia
++    implementation(project(":bloom-api")) // Bloom // Folia
+     // Paper start
+     implementation("org.jline:jline-terminal-jansi:3.21.0")
+     implementation("net.minecrell:terminalconsoleappender:1.3.0")
+@@ -73,21 +73,21 @@ tasks.jar {
      manifest {
          val git = Git(rootProject.layout.projectDirectory.path)
+         val mcVersion = rootProject.providers.gradleProperty("mcVersion").get()
+-        val build = System.getenv("BUILD_NUMBER") ?: null
++        val build = System.getenv("BUILD_NUMBER") ?: (System.getenv("GITHUB_RUN_NUMBER") ?: null) // Bloom
          val gitHash = git("rev-parse", "--short=7", "HEAD").getText().trim()
--        val implementationVersion = System.getenv("BUILD_NUMBER") ?: "\"$gitHash\""
-+        val implementationVersion = System.getenv("GITHUB_RUN_NUMBER") ?: "\"$gitHash\"" // Bloom
+         val implementationVersion = "$mcVersion-${build ?: "DEV"}-$gitHash"
          val date = git("show", "-s", "--format=%ci", gitHash).getText().trim() // Paper
          val gitBranch = git("rev-parse", "--abbrev-ref", "HEAD").getText().trim() // Paper
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
-             "Implementation-Title" to "CraftBukkit",
--            "Implementation-Version" to "git-Folia-$implementationVersion", // Folia
-+            "Implementation-Version" to "git-Bloom-$implementationVersion", // Bloom // Folia
+-            "Implementation-Title" to "Folia", // Folia
++            "Implementation-Title" to "Bloom", // Bloom // Folia
+             "Implementation-Version" to implementationVersion,
              "Implementation-Vendor" to date, // Paper
-             "Specification-Title" to "Bukkit",
+-            "Specification-Title" to "Folia", // Folia
++            "Specification-Title" to "Bloom", // Bloom // Folia
              "Specification-Version" to project.version,
+             "Specification-Vendor" to "Paper Team",
+-            "Brand-Id" to "papermc:folia", // Folia
+-            "Brand-Name" to "Folia", // Folia
++            "Brand-Id" to "euphyllia:bloom", // Bloom // Folia
++            "Brand-Name" to "Bloom", //Bloom // Folia
+             "Build-Number" to (build ?: ""),
+             "Build-Time" to Instant.now().toString(),
+             "Git-Branch" to gitBranch, // Paper
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index e2f704c115fd6e00960bb56bb0779f1100c89c17..82838ad547506c79f3a099f47ec79ba1245fee22 100644
+index 29bd788ae8bc61c1e62a4f84b9e259931a7041ce..6e017a4465eae21c25d8648d4374a0908d4363f7 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-@@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
- 
- public class PaperVersionFetcher implements VersionFetcher {
-     private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
--    private static final String GITHUB_BRANCH_NAME = "master";
+@@ -35,7 +35,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+     private static final Logger LOGGER = LogUtils.getClassLogger();
+     private static final int DISTANCE_ERROR = -1;
+     private static final int DISTANCE_UNKNOWN = -2;
 -    private static final String DOWNLOAD_PAGE = "https://papermc.io/downloads/paper";
-+    private static final String GITHUB_BRANCH_NAME = "master"; // Bloom
 +    private static final String DOWNLOAD_PAGE = "https://github.com/Euphillya/Bloom/actions"; // Bloom
-     private static @Nullable String mcVer;
  
      @Override
-@@ -31,11 +31,11 @@ public class PaperVersionFetcher implements VersionFetcher {
-     @Nonnull
-     @Override
-     public Component getVersionMessage(@Nonnull String serverVersion) {
--        String[] parts = serverVersion.substring("git-Folia-".length()).split("[-\\s]"); // Folia
--        final Component updateMessage = getUpdateStatusMessage("PaperMC/Folia", GITHUB_BRANCH_NAME, parts[0]); // Folia
-+        String[] parts = serverVersion.substring("git-Bloom-".length()).split("[-\\s]"); // Folia // Bloom
-+        final Component updateMessage = getUpdateStatusMessage("Euphillya/Bloom", GITHUB_BRANCH_NAME, parts[0]); // Bloom // Folia
-         final Component history = getHistory();
+     public long getCacheTime() {
+@@ -49,7 +49,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+         if (build.buildNumber().isEmpty() && build.gitCommit().isEmpty()) {
+             updateMessage = text("You are running a development version without access to version information", color(0xFF5300));
+         } else {
+-            updateMessage = getUpdateStatusMessage("PaperMC/Folia", build); // Folia
++            updateMessage = getUpdateStatusMessage("Euphillya/Bloom", build); // Bloom // Folia
+         }
+         final @Nullable Component history = this.getHistory();
  
--        return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
-+        return history != null ? Component.textOfChildren(updateMessage, Component.newline(), history) : updateMessage; // Bloom
+@@ -84,6 +84,7 @@ public class PaperVersionFetcher implements VersionFetcher {
      }
  
-     private static @Nullable String getMinecraftVersion() {
-@@ -45,7 +45,7 @@ public class PaperVersionFetcher implements VersionFetcher {
-                 String result = matcher.group();
-                 mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
-             } else {
--                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to PaperMC!");
-+                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Bloom!"); // Bloom
-                 org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
-                 org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
-             }
-@@ -82,6 +82,7 @@ public class PaperVersionFetcher implements VersionFetcher {
-     }
- 
-     private static int fetchDistanceFromSiteApi(int jenkinsBuild, @Nullable String siteApiVersion) {
+     private static int fetchDistanceFromSiteApi(final ServerBuildInfo build, final int jenkinsBuild) {
 +        if (true) throw new NumberFormatException("ignored"); // Bloom
-         if (siteApiVersion == null) { return -1; }
          try {
-             try (BufferedReader reader = Resources.asCharSource(
-diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..9b810d0fdae95c2dd4a4a40041d9d365c1873cb4 100644
---- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-+++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-@@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
-     @Override
-     protected LineReader buildReader(LineReaderBuilder builder) {
-         builder
--                .appName("Paper")
-+                .appName("Bloom") // Bloom
-                 .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
-                 .completer(new ConsoleCommandCompleter(this.server))
-                 .option(LineReader.Option.COMPLETE_IN_WORD, true);
-diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 49a121862fbb823a00753d99d24d04c87479fcd1..899966b31e1f6d850bf33fa3a8db4b4e6d727bd9 100644
---- a/src/main/java/net/minecraft/server/MinecraftServer.java
-+++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -2020,7 +2020,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
- 
-     @DontObfuscate
-     public String getServerModName() {
--        return "Folia"; // Paper // Folia - Folia
-+        return "Bloom"; // Paper // Folia - Folia // Bloom - Bloom
-     }
- 
-     public SystemReport fillSystemReport(SystemReport details) {
-diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 57963e9e427e2533ae9cdbd1e98ff3dfadbdebac..477a7bd66cd07ddcc074270b8ec5f2dc5a803baf 100644
---- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-+++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -268,7 +268,7 @@ import javax.annotation.Nullable; // Paper
- import javax.annotation.Nonnull; // Paper
- 
- public final class CraftServer implements Server {
--    private final String serverName = "Folia"; // Folia // Paper
-+    private final String serverName = "Bloom"; // Bloom // Folia // Paper
-     private final String serverVersion;
-     private final String bukkitVersion = Versioning.getBukkitVersion();
-     private final Logger logger = Logger.getLogger("Minecraft");
+             try (final BufferedReader reader = Resources.asCharSource(
+                 URI.create("https://api.papermc.io/v2/projects/folia/versions/" + build.minecraftVersionId()).toURL(), // Folia
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index e9b6ca3aa25e140467ae866d572483050ea3fa0e..1d8f4b1a7e8d19b0bd99a00f1ade36c178febd6c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java

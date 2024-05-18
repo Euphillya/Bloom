@@ -204,7 +204,7 @@ index 0000000000000000000000000000000000000000..fea1e7a698441b4601999edb54ce4938
 +}
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 05bc06fcf508e74c717a7f71a2c7ed7c568e846a..e13a483a4f6e1e0d9b0e87f3ce2e2da3b07a481f 100644
+index bd333ffb44798069e180cad67c07d86425253024..4cbd3be3a1f30868ab5d9130d000863dd0293f62 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -232,6 +232,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -220,8 +220,8 @@ index 05bc06fcf508e74c717a7f71a2c7ed7c568e846a..e13a483a4f6e1e0d9b0e87f3ce2e2da3
 +        }
 +        // Bloom end
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
-         io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // Paper - init PaperBrigadierProvider
  
+         this.setPvpAllowed(dedicatedserverproperties.pvp);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
 index 8c124cb3d1238c9f3297f9f2d2345399055147fe..6517bdb942649a8624f1c806d7669ae1fa33be92 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
@@ -248,10 +248,10 @@ index 8c124cb3d1238c9f3297f9f2d2345399055147fe..6517bdb942649a8624f1c806d7669ae1
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 477a7bd66cd07ddcc074270b8ec5f2dc5a803baf..b962394daea6d43282cbab251273bf8aececa309 100644
+index 273c37b63df3f14488586f9217c7b19a8f3d8ad5..922bb996578e2a1638b4264e2898acbcd85f0087 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -257,6 +257,7 @@ import org.bukkit.scoreboard.Criteria;
+@@ -253,6 +253,7 @@ import org.bukkit.scoreboard.Criteria;
  import org.bukkit.structure.StructureManager;
  import org.bukkit.util.StringUtil;
  import org.bukkit.util.permissions.DefaultPermissions;
@@ -259,7 +259,7 @@ index 477a7bd66cd07ddcc074270b8ec5f2dc5a803baf..b962394daea6d43282cbab251273bf8a
  import org.yaml.snakeyaml.LoaderOptions;
  import org.yaml.snakeyaml.Yaml;
  import org.yaml.snakeyaml.constructor.SafeConstructor;
-@@ -1097,6 +1098,7 @@ public final class CraftServer implements Server {
+@@ -1076,6 +1077,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -267,7 +267,7 @@ index 477a7bd66cd07ddcc074270b8ec5f2dc5a803baf..b962394daea6d43282cbab251273bf8a
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1112,6 +1114,7 @@ public final class CraftServer implements Server {
+@@ -1091,6 +1093,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -275,7 +275,7 @@ index 477a7bd66cd07ddcc074270b8ec5f2dc5a803baf..b962394daea6d43282cbab251273bf8a
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -3093,6 +3096,13 @@ public final class CraftServer implements Server {
+@@ -3079,6 +3082,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -290,10 +290,10 @@ index 477a7bd66cd07ddcc074270b8ec5f2dc5a803baf..b962394daea6d43282cbab251273bf8a
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c988afa496d25314451435eedd64079a0d87cef0..04850c67e4995cebd694a721dc588a068b3ccf68 100644
+index e02102280ed1dc300191d19bbca8f00e17701753..1be03b560f89a2e75c45bbe8723bab326f7e1d99 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -175,6 +175,14 @@ public class Main {
+@@ -176,6 +176,14 @@ public class Main {
                          .describedAs("Jar file");
                  // Paper end
  
