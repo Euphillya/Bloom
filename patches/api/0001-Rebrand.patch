@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Sat, 8 Jun 2024 22:48:21 +0200
+Subject: [PATCH] Rebrand
+
+
+diff --git a/src/main/java/io/papermc/paper/ServerBuildInfo.java b/src/main/java/io/papermc/paper/ServerBuildInfo.java
+index 9df9d09aa477d4cd3c496ba0933c816df1ef0964..e9dcee322d0f71fbfbcf76801a4ea5aec56b2a2d 100644
+--- a/src/main/java/io/papermc/paper/ServerBuildInfo.java
++++ b/src/main/java/io/papermc/paper/ServerBuildInfo.java
+@@ -18,6 +18,13 @@ public interface ServerBuildInfo {
+      */
+     Key BRAND_PAPER_ID = Key.key("papermc", "paper");
+ 
++    // Bloom start
++    /**
++     * The brand id for Bloom.
++     */
++    Key BRAND_BLOOM_ID = Key.key("euphyllia", "bloom");
++    // Bloom end
++
+     /**
+      * Gets the {@code ServerBuildInfo}.
+      *

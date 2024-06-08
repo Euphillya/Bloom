@@ -5,7 +5,7 @@ Subject: [PATCH] Bloom Rebranding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index eb2f9941b24af591f1e56339b97f5284a765cf81..830a22133b231ce485b967b91298cbaa8e46d34a 100644
+index eb2f9941b24af591f1e56339b97f5284a765cf81..d0a9236ecafa024f42a61299259952c3acf5ebc6 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,7 +13,7 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
@@ -36,9 +36,10 @@ index eb2f9941b24af591f1e56339b97f5284a765cf81..830a22133b231ce485b967b91298cbaa
 -            "Specification-Title" to "Folia", // Folia
 +            "Specification-Title" to "Bloom", // Bloom // Folia
              "Specification-Version" to project.version,
-             "Specification-Vendor" to "Paper Team",
+-            "Specification-Vendor" to "Paper Team",
 -            "Brand-Id" to "papermc:folia", // Folia
 -            "Brand-Name" to "Folia", // Folia
++            "Specification-Vendor" to "Euphyllia", // Bloom
 +            "Brand-Id" to "euphyllia:bloom", // Bloom // Folia
 +            "Brand-Name" to "Bloom", //Bloom // Folia
              "Build-Number" to (build ?: ""),
@@ -74,6 +75,52 @@ index 29bd788ae8bc61c1e62a4f84b9e259931a7041ce..6e017a4465eae21c25d8648d4374a090
          try {
              try (final BufferedReader reader = Resources.asCharSource(
                  URI.create("https://api.papermc.io/v2/projects/folia/versions/" + build.minecraftVersionId()).toURL(), // Folia
+diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
+index c5d5648f4ca603ef2b1df723b58f9caf4dd3c722..9b810d0fdae95c2dd4a4a40041d9d365c1873cb4 100644
+--- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
++++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
+@@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
+     @Override
+     protected LineReader buildReader(LineReaderBuilder builder) {
+         builder
+-                .appName("Paper")
++                .appName("Bloom") // Bloom
+                 .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
+                 .completer(new ConsoleCommandCompleter(this.server))
+                 .option(LineReader.Option.COMPLETE_IN_WORD, true);
+diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
+index e741201fdbea0dbbc0e42313ebd33368014c9dc4..ac1fdf946bf56af42325db5950e5bbaf8946c2af 100644
+--- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
++++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
+@@ -31,6 +31,7 @@ public record ServerBuildInfoImpl(
+     private static final String ATTRIBUTE_GIT_COMMIT = "Git-Commit";
+ 
+     private static final String BRAND_PAPER_NAME = "Paper";
++    private static final String BRAND_BLOOM_NAME = "Bloom"; // Bloom
+ 
+     private static final String BUILD_DEV = "DEV";
+ 
+@@ -42,9 +43,9 @@ public record ServerBuildInfoImpl(
+         this(
+             getManifestAttribute(manifest, ATTRIBUTE_BRAND_ID)
+                 .map(Key::key)
+-                .orElse(Key.key("papermc", "folia")), // Folia
++                .orElse(BRAND_BLOOM_ID), // Folia // Bloom
+             getManifestAttribute(manifest, ATTRIBUTE_BRAND_NAME)
+-                .orElse("Folia"), // Folia
++                .orElse(BRAND_BLOOM_NAME), // Folia // Bloom
+             SharedConstants.getCurrentVersion().getId(),
+             SharedConstants.getCurrentVersion().getName(),
+             getManifestAttribute(manifest, ATTRIBUTE_BUILD_NUMBER)
+@@ -61,7 +62,7 @@ public record ServerBuildInfoImpl(
+ 
+     @Override
+     public boolean isBrandCompatible(final @NotNull Key brandId) {
+-        return brandId.equals(this.brandId);
++        return brandId.equals(this.brandId) || brandId.equals(BRAND_PAPER_ID); // Bloom
+     }
+ 
+     @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index e9b6ca3aa25e140467ae866d572483050ea3fa0e..1d8f4b1a7e8d19b0bd99a00f1ade36c178febd6c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java

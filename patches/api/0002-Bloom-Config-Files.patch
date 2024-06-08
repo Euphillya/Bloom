@@ -5,10 +5,10 @@ Subject: [PATCH] Bloom Config Files
 
 
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 15395ef52505087e7eef3b1a5981e787dcc16508..06d2eb32f6fd75ef19e5721c889badb9771b1b86 100644
+index d4c5b06fe4be177442ef1abaf1b223c6c2845930..349f245a70624a7a6d84edc4b6fd821bbf9ae2dc 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2235,6 +2235,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2257,6 +2257,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Paper end
  
