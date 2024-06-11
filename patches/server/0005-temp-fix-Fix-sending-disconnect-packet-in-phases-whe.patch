@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Euphyllia Bierque <bierque.euphyllia@gmail.com>
+Date: Tue, 11 Jun 2024 11:07:05 +0200
+Subject: [PATCH] temp fix : Fix sending disconnect packet in phases where it
+ doesn't exist
+
+
+diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
+index f38ffc4fbde0f25578ebcc4ec3bf0afe079a10c8..d5e8dd947cb29343074df8074e791357c72e7f7b 100644
+--- a/src/main/java/net/minecraft/network/Connection.java
++++ b/src/main/java/net/minecraft/network/Connection.java
+@@ -240,7 +240,8 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+                     if (player != null) player.quitReason = org.bukkit.event.player.PlayerQuitEvent.QuitReason.ERRONEOUS_STATE; // Paper - Add API for quit reason
+                     if (flag) {
+                         Connection.LOGGER.debug("Failed to sent packet", throwable);
+-                        if (this.getSending() == PacketFlow.CLIENTBOUND) {
++                        boolean doesDisconnectExist = this.packetListener.protocol() != ConnectionProtocol.STATUS && this.packetListener.protocol() != ConnectionProtocol.HANDSHAKING; // Paper
++                        if (this.getSending() == PacketFlow.CLIENTBOUND && doesDisconnectExist) { // Paper
+                             Packet<?> packet = this.sendLoginDisconnect ? new ClientboundLoginDisconnectPacket(ichatmutablecomponent) : new ClientboundDisconnectPacket(ichatmutablecomponent);
+ 
+                             this.send((Packet) packet, PacketSendListener.thenRun(() -> {
