@@ -40,7 +40,7 @@ index d8be7c8dca41b6ad6d9a28590be9e33ef9045bdb..34de2448186684d43601a79a0496fb54
 +        // Bloom start
 +        if (fr.euphyllia.bloom.configuration.GlobalConfiguration.ENABLE_ENTITY_TELEPORT_EVENT) {
 +            org.bukkit.entity.Entity bukkitEntity = this.getBukkitEntity();
-+            Location to = new Location(destination.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), yaw != null ? yaw : 0.0, pitch != null ? pitch : 0.0);
++            Location to = new Location(destination.getWorld(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), yaw != null ? yaw : 0.0f, pitch != null ? pitch : 0.0f);
 +            if (bukkitEntity instanceof org.bukkit.entity.Player player) {
 +                PlayerTeleportEvent playerTeleportEvent = new PlayerTeleportEvent(player, bukkitEntity.getLocation(), to);
 +                destination.getCraftServer().getPluginManager().callEvent(playerTeleportEvent);
