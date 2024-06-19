@@ -20,10 +20,10 @@ index eb618442c99114c3b81c2522242944dad58654f8..61465b5a34528fec951ad030d8e6004f
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index d8be7c8dca41b6ad6d9a28590be9e33ef9045bdb..34de2448186684d43601a79a0496fb5459394f8f 100644
+index fad6a7185e8e9ea160b47ec9da56d08af9df8396..a7512c5e108ab378ad029ad02d9c025144573964 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -4003,7 +4003,8 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4008,7 +4008,8 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
                                         java.util.function.Consumer<Entity> teleportComplete) {
          io.papermc.paper.util.TickThread.ensureTickThread(this, "Cannot teleport entity async");
  
@@ -33,7 +33,7 @@ index d8be7c8dca41b6ad6d9a28590be9e33ef9045bdb..34de2448186684d43601a79a0496fb54
              return false;
          }
  
-@@ -4033,6 +4034,25 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4038,6 +4039,25 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          }
  
          // TODO any events that can modify go HERE
