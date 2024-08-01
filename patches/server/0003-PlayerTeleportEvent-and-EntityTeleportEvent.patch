@@ -20,9 +20,18 @@ index eb618442c99114c3b81c2522242944dad58654f8..61465b5a34528fec951ad030d8e6004f
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 7a102b4e90fbc09b8653e5b566299efe24a04cf6..557774a02ee6b863085287c01077814480569b8f 100644
+index 7a102b4e90fbc09b8653e5b566299efe24a04cf6..5f3fada5b11b46fff1676f2b0465312bfeabda6c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -4043,7 +4043,7 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+                                        java.util.function.Consumer<Entity> teleportComplete) {
+         ca.spottedleaf.moonrise.common.util.TickThread.ensureTickThread(this, "Cannot teleport entity async");
+ 
+-        if (!ServerLevel.isInSpawnableBounds(new BlockPos(ca.spottedleaf.moonrise.common.util.CoordinateUtils.getBlockX(pos), ca.spottedleaf.moonrise.common.util.CoordinateUtils.getBlockY(pos), ca.spottedleaf.moonrise.common.util.CoordinateUtils.getBlockZ(pos)))) {
++        BlockPos blockPos = new BlockPos(ca.spottedleaf.moonrise.common.util.CoordinateUtils.getBlockX(pos), ca.spottedleaf.moonrise.common.util.CoordinateUtils.getBlockY(pos), ca.spottedleaf.moonrise.common.util.CoordinateUtils.getBlockZ(pos)); if (!ServerLevel.isInSpawnableBounds(blockPos)) { // Bloom
+             return false;
+         }
+ 
 @@ -4073,6 +4073,25 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          }
  
