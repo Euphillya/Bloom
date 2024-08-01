@@ -5,7 +5,7 @@ Subject: [PATCH] Bloom Rebranding
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index eb2f9941b24af591f1e56339b97f5284a765cf81..d0a9236ecafa024f42a61299259952c3acf5ebc6 100644
+index f0a90d13a17160cd363d54d494add4f6433b4758..d0e1dbe6829cef105faddac79fbec27414f28281 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,7 +13,7 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
@@ -17,7 +17,7 @@ index eb2f9941b24af591f1e56339b97f5284a765cf81..d0a9236ecafa024f42a61299259952c3
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
      implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -73,21 +73,21 @@ tasks.jar {
+@@ -77,21 +77,21 @@ tasks.jar {
      manifest {
          val git = Git(rootProject.layout.projectDirectory.path)
          val mcVersion = rootProject.providers.gradleProperty("mcVersion").get()

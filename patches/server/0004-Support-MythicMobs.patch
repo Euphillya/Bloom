@@ -21,10 +21,10 @@ index 61465b5a34528fec951ad030d8e6004f6cf40cd8..7b55e98f8b2beaa68d7bf56aec61de86
  }
 \ No newline at end of file
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index b00e3b9b628f3d2a2fdbf1d2c77904963c16d3ac..4fed85c3fcd2b8cd6b27759c5c2b961b804f9e65 100644
+index 5a24902b735cbd64dd5cd5ad46b096c4bdfa799f..3845eb45fc39f91f7ed8aadb4ebdd503c66faba3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-@@ -532,7 +532,9 @@ public class CraftScheduler implements BukkitScheduler {
+@@ -521,7 +521,9 @@ public class CraftScheduler implements BukkitScheduler {
      }
  
      protected CraftTask handle(final CraftTask task, final long delay) { // Paper
@@ -35,7 +35,7 @@ index b00e3b9b628f3d2a2fdbf1d2c77904963c16d3ac..4fed85c3fcd2b8cd6b27759c5c2b961b
          // Paper start
          if (!this.isAsyncScheduler && !task.isSync()) {
              this.asyncScheduler.handle(task, delay);
-@@ -542,6 +544,7 @@ public class CraftScheduler implements BukkitScheduler {
+@@ -531,6 +533,7 @@ public class CraftScheduler implements BukkitScheduler {
          task.setNextRun(this.currentTick + delay);
          this.addTask(task);
          return task;

@@ -20,20 +20,10 @@ index eb618442c99114c3b81c2522242944dad58654f8..61465b5a34528fec951ad030d8e6004f
  }
 \ No newline at end of file
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index fad6a7185e8e9ea160b47ec9da56d08af9df8396..a7512c5e108ab378ad029ad02d9c025144573964 100644
+index 7a102b4e90fbc09b8653e5b566299efe24a04cf6..557774a02ee6b863085287c01077814480569b8f 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -4008,7 +4008,8 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
-                                        java.util.function.Consumer<Entity> teleportComplete) {
-         io.papermc.paper.util.TickThread.ensureTickThread(this, "Cannot teleport entity async");
- 
--        if (!ServerLevel.isInSpawnableBounds(new BlockPos(io.papermc.paper.util.CoordinateUtils.getBlockX(pos), io.papermc.paper.util.CoordinateUtils.getBlockY(pos), io.papermc.paper.util.CoordinateUtils.getBlockZ(pos)))) {
-+        BlockPos blockPos = new BlockPos(io.papermc.paper.util.CoordinateUtils.getBlockX(pos), io.papermc.paper.util.CoordinateUtils.getBlockY(pos), io.papermc.paper.util.CoordinateUtils.getBlockZ(pos)); // Bloom
-+        if (!ServerLevel.isInSpawnableBounds(blockPos)) { // Bloom
-             return false;
-         }
- 
-@@ -4038,6 +4039,25 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
+@@ -4073,6 +4073,25 @@ public abstract class Entity implements SyncedDataHolder, Nameable, EntityAccess
          }
  
          // TODO any events that can modify go HERE
